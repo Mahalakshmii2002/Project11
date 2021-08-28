@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct bank
+{
+  
+  int acc_no;
+    char acc_name[20];
+    float amount;
+};
+void main()
+{
+    struct bank b1[20];
+    FILE *fptr;
+    int choice,i,count=0,ac;
+    float amt;
+    do
+       {
+        printf("\t\tBANKING");
+        printf("\n\t***************************");
+        printf("\n1.Add Account\n2.Deposit\n3.Withdraw\n4.Customer Report\n5.Exit");
+        printf("\nEnter a choice: ");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1:
+            for(i=count;i<count+1;i++)
+          {
+            printf("\nEnter your name: ");
+            scanf("%s",b1[i].acc_name);
+            printf("\nEnter the amount to be deposited: ");
+            scanf("%f",&b1[i].amount);
+            if(b1[i].amount<500)
+            {
+              printf("\nInsufficient Amount.\nMinimum Amount required is 500.");
+              printf("\nERROR......ACCOUNT CANNOT BE CREATED");
+            }
+            else
+            {
+             fptr=fopen("bank.txt","a");
+             b1[i].acc_no=count+1000;
+             fprintf(fptr,"%d\t%s\t%f\n",b1[i].acc_no,b1[i].acc_name,b1[i].amount);
+
+             printf("\nYOUR ACCOUNT HAS BEEN CREATED SUCCESSFULLY!!\nTHANK YOU!!!");
+            }
+             fscanf(fptr,"%d\t%s\t%f\n",&b1[i].acc_no,b1[i].acc_name,&b1[i].amount);
+             printf("\n%d\t%s\t%f\n",b1[i].acc_no,b1[i].acc_name,b1[i].amount);
+             fclose(fptr);
+            }
+          count++;
+          break;
+            case 2:
+             printf("Enter Account number: ");
+             scanf("%d",&ac);
+             fptr=fopen("bank.txt","w");
+             for(i=0;i<count;i++)
+          {
+             fscanf(fptr,"%d\t%s\t%f\n",&b1[i].acc_no,b1[i].acc_name,&b1[i].amount);
+             if(b1[i].acc_no==ac)
+          {
+             printf("\nEnter the Amount to be Deposited: ");
+             scanf("%f",&amt);
+             b1[i].amount=b1[i].amount+amt;
+             printf("\nAMOUNT HAS BEEN DEPOSITED SUCCESSFULLY!!!\n");
+             fclose(fptr);
+             break;
+          }
+          }
+          if(i==count)
+          printf("\nERROR!!!....ACCOUNT NOT FOUND!!!\nENTER A VALID ACCOUNT NUMBER.\n");
+          else
+          {
+          for(i=0;i<count;i++)
+          {
+          fptr=fopen("bank.txt","a");
+          fprintf(fptr,"%d\t%s\t%f\n",b1[i].acc_no,b1[i].acc_name,b1[i].amount);
+          fscanf(fptr,"%d\t%s\t%f\n",&b1[i].acc_no,b1[i].acc_name,&b1[i].amount);
+          if(b1[i].acc_no==ac)
+          printf("\n%d\t%s\t%f\n",b1[i].acc_no,b1[i].acc_name,b1[i].amount);
+          fclose(fptr);
+          }
+          }
+          break;
+          case 3:
+            printf("Enter your Account number: ");
+            scanf("%d",&ac);
+            fptr=fopen("bank.txt","w");
+            for(i=0;i<count;i++)
+           {
+             fscanf(fptr,"%d\t%s\t%f\n",&b1[i].acc_no,b1[i].acc_name,&b1[i].amount);
+             if(b1[i].acc_no==ac)
+           {
+             printf("\nEnter the Required Amount to be withdrawn: ");
+             scanf("%f",&amt);
+             b1[i].amount=b1[i].amount-amt;
+             printf("\nAMOUNT HAS BEEN WITHDRAWN SUCCESSFULLY!!!\n");
+             fclose(fptr);
+             break;
+           }
+           }
+              if(i==count)
+               printf("\nERROR!!!.....ACCOUNT NOT FOUND!!!\nENTER A VALID ACCOUNT NUMBER.\n");
+              else
+              {
+               for(i=0;i<count;i++)
+              {
+                fptr=fopen("bank.txt","a");
+                fprintf(fptr,"%d\t%s\t%f\n",b1[i].acc_no,b1[i].acc_name,b1[i].amount);
+                fscanf(fptr,"%d\t%s\t%f\n",&b1[i].acc_no,b1[i].acc_name,&b1[i].amount);
+                if(b1[i].acc_no==ac)
+                printf("\n%d\t%s\t%f\n",b1[i].acc_no,b1[i].acc_name,b1[i].amount);
+                fclose(fptr);
+              }
+              }
+               break;
+               case 4:
+                   printf("Enter your Account number: ");
+                   scanf("%d",&ac);
+                   fptr=fopen("bank.txt","r");
+                   for(i=0;i<count;i++)
+                   {
+                     if(b1[i].acc_no==ac)
+                   {
+                      fscanf(fptr,"%d\t%s\t%f\n",&b1[i].acc_no,b1[i].acc_name,&b1[i].amount);
+                      printf("\n%d\t%s\t%f\n",b1[i].acc_no,b1[i].acc_name,b1[i].amount);
+                      break;
+                   }
+                   }
+                     if(i==count)
+                       printf("\nERROR!!!....ACCOUNT CANNOT BE FOUND!!\nENTER A VALID ACCOUNT NUMBER.\n");
+                    break;
+                    case 5: exit(0);
+                    break;
+                 default: printf("INVALID CHOICE!!");
+                 }
+                   }
+                       while(choice<=5);
+                    }
